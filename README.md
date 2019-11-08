@@ -1,6 +1,3 @@
-# pro-salud-sv
-API REST de gestion de citas he instorial medico de pacientes de clinicas privadas y seguro social
-
 # [Pro Salud SV](https://prosalud.com)
 
 [![Get it on Google Play](http://www.tananaev.com/badges/google-play.svg)]()
