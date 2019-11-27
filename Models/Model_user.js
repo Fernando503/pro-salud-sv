@@ -11,24 +11,16 @@ const UserSchema = Schema({
 	password: {type: String, select:false},
 	loginDate: {type: Date, default: Date.now()},
 	lastLogin: Date,
-	permisos: {type:String, enum: ['Administrador','Cliente','Trabajador','Usuario']},
+	permisos: {type:String, enum: ['Administrador','Medico','Enfermera','Usuario']},
 })
 
-UserSchema.pre('save', (next)=>{
-	let user = this
-	if(!user.isModified('password')) return next()
+const saltRounds = 512;
 
-		bcrypt.genSalt(10, (err, salt)=>{
-			if (err) return next()
-
-				bcrypt.hash(user.password, salt, null, (err, hash)=>{
-					if (err) return next(err)
-
-						user.password = hash
-					next()
-				})
-		})
+UserSchema.pre('save', function (next) {
+    if (this.isNew || this.isModified('password')) {
+        this.password = bcrypt.hashSync(this.password, saltRounds)
+    }
+    next()
 })
-
 
 module.exports = mongoose.model('Users', UserSchema)

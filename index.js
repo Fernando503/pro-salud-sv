@@ -6,7 +6,7 @@ const config = require('./resources/config')
 const mongoose = require('mongoose')
 
 // Conexion de la  Base de datos
-mongoose.connect(config.db,{ useNewUrlParser: true, useUnifiedTopology: true }, (err, res) =>{
+mongoose.connect(config.db,{ useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true }, (err, res) =>{
 	if(err){
 		return console.log(`Error al conectar con la base de datos: ${err}`)
 	}
@@ -18,5 +18,5 @@ https.createServer({
   key: fs.readFileSync('./resources/SSL/server.key'),
   cert: fs.readFileSync('./resources/SSL/server.cert')
 }, app).listen(config.port, () => {
-  console.log(`Running in http://localhost:${config.port}`)
+  console.log(`Running in https://localhost:${config.port}/`)
 })

@@ -7,6 +7,6 @@ rutas.get('/', (req,res)=>{
 	res.status(200).send({message:'Ingreso a la API exitosamente'})
 })
 
-rutas.get('/Test/a',userCtrl.addUser)
+rutas.post('/User/a',userCtrl.addUser)
 
 module.exports = rutas
