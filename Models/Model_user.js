@@ -8,7 +8,7 @@ const UserSchema = Schema({
 	nombre: String,
 	picture: String,
 	username: String,
-	password: {type: String, select:false},
+	password: {type: String},
 	loginDate: {type: Date, default: Date.now()},
 	lastLogin: Date,
 	permisos: {type:String, enum: ['Administrador','Medico','Enfermera','Usuario']},

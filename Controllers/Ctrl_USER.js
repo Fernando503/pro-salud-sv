@@ -1,10 +1,43 @@
 'use strict'
 const User = require('./../Models/Model_user')
+const passport = require('passport')
+const {encode} = require('../utils')
+const bcrypt = require('bcrypt')
 
-function loginUser(req, res){
-	req.session = true
-	res.status(200).send({message:"funcion de Login"})
-}
+const LocalStrategy = require('passport-local').Strategy;
+
+passport.use('local_login', new LocalStrategy({
+	username: 'username',
+	password: 'password'
+},
+ (username, password, done) => {
+    try {
+    	//console.log('Usuario ingresado: '+username)
+            User.findOne({username:username}, function callback(error, user) {
+				
+            //console.log('retornando data: '+user)
+            
+            if( !user )            
+                return done(null, false, { message : 'Usuario no encontrado'});
+
+					bcrypt.compare(password, user.password, function(err, res) {
+					  if (err){
+					   console.log('ERR: -> '+err)
+					  }
+					  if (res){
+					  	return done(null, user, { message : 'Login exitoso'});
+					    console.log('RES: -> '+res)
+					  } else {
+					    // response is OutgoingMessage object that server response http request
+					    return done(null, false, { message : 'Contraseña incorrecta'});
+					  }
+					})
+             }) 
+        } catch (error) {
+            return done(err)
+        }
+  }
+))
 
 function addUser(req,res){
 	console.log('Request from: https://localhost:8000/API/ProSalud/User/a')
@@ -30,6 +63,5 @@ function addUser(req,res){
 }
 
 module.exports = {
-	loginUser,
 	addUser
 }
