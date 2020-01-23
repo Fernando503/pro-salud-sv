@@ -1,8 +1,9 @@
 'use strict'
 const User = require('./../Models/Model_user')
 const passport = require('passport')
-const {encode} = require('../utils')
+const {SECRET_TOKEN} = require('../resources/config.js')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -25,7 +26,17 @@ passport.use('local_login', new LocalStrategy({
 					   console.log('ERR: -> '+err)
 					  }
 					  if (res){
-					  	return done(null, user, { message : 'Login exitoso'});
+					  	 const payload = {Usuario:{
+					  	 	email: user.email,
+					  	 	nombre: user.nombre,
+					  	 	username: user.username,
+					  	 	permisos: user.permisos,
+					  	 	picture: user.picture
+					  	 }}
+					  	const token = jwt.sign(payload, SECRET_TOKEN, {
+						   expiresIn: 30
+						  })
+					  	return done(null, user, { message : 'Login exitoso', token:token});
 					    console.log('RES: -> '+res)
 					  } else {
 					    // response is OutgoingMessage object that server response http request
