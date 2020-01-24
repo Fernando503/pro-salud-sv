@@ -4,6 +4,7 @@ const passport = require('passport')
 const { SECRET_TOKEN } = require('../resources/config.js')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+var fecha = require('../utils')
 
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -13,6 +14,7 @@ passport.use('local_login', new LocalStrategy({
     },
     (username, password, done) => {
         try {
+            var fechaActual = ''
             //console.log('Usuario ingresado: '+username)
             User.findOne({ username: username }, function callback(error, user) {
 
@@ -38,8 +40,14 @@ passport.use('local_login', new LocalStrategy({
                         const token = jwt.sign(payload, SECRET_TOKEN, {
                             expiresIn: 30
                         })
-                        return done(null, user, { message: 'Login exitoso', token: token });
-                        console.log('RES: -> ' + res)
+                        fechaActual = fecha.hoyFecha()
+                        User.update({ "_id": user._id }, { $set: { lastLogin: fechaActual } }, (err, todo) => {
+                            // Handle any possible database errors
+                            if (err) return res.status(500).send(err);
+
+                            return done(null, user, { message: 'Login exitoso', token: token });
+                        })
+
                     } else {
                         // response is OutgoingMessage object that server response http request
                         return done(null, false, { message: 'Contraseña incorrecta' });
@@ -55,7 +63,7 @@ passport.use('local_login', new LocalStrategy({
 function addUser(req, res) {
     console.log('Request from: https://localhost:8000/API/ProSalud/User/a')
 
-    User.findOne({ username: username }, function callback(error, user) {
+    User.findOne({ username: req.body.username }, function callback(error, user) {
         if (user) {
             res.status(401).json({ code: 1, message: "El usuario ya existe" })
         } else {
