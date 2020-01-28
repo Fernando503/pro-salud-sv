@@ -6,18 +6,18 @@ const InstitucionSchema = Schema({
 	nombre: String,
 	correo: { type: String, lowercase: true },
 	logo: String,
-	direccion: {
+	direccion: [{
 		direccion1: String,
 		direccion2: String,
 		direccion3: String
-	},
-	telefono: {
+	}],
+	telefono: [{
 		fijo1: String,
-		fijo2: String,
+		fijo2: String, 
 		movil: String,
 		whatsapp: String
-	},
-	servicios: {
+	}],
+	servicios: [{
 		servicio1: String,
 		servicio2: String,
 		servicio3: String,
@@ -28,8 +28,8 @@ const InstitucionSchema = Schema({
 		servicio8: String,
 		servicio9: String,
 		servicio10: String
-	}
+	}]
 })
 
 
-module.exports = mongoose.model('Institucion', InstitucionSchema)
+module.exports = mongoose.model('Institution', InstitucionSchema)

@@ -2,6 +2,7 @@
 const express = require('express')
 const rutas = express.Router()
 const userCtrl = require('../Controllers/Ctrl_USER')
+const insttrl = require('../Controllers/Ctrl_Institucion')
 const passport = require('passport')
 const secury = require('../Middlewares/rutasProtegidas.js')
 // para validar JWT:    secury.vJWT
@@ -22,5 +23,6 @@ rutas.post('/auth', (req, res, next) => {
             });
         })(req, res);
 });
+rutas.post('/Insti/add',secury.vJWT, insttrl.addInstitucion)
 
 module.exports = rutas
