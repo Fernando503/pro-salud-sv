@@ -7,7 +7,7 @@ const UserSchema = Schema({
     email: { type: String, unique: true, lowercase: true },
     nombre: String,
     picture: String,
-    username: String,
+    username: { type: String, unique: true},
     password: { type: String },
     loginDate: { type: Date, default: Date.now() },
     lastLogin: Date,

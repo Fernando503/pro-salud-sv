@@ -5,11 +5,17 @@ function hoyFecha() {
     var dd = hoy.getDate();
     var mm = hoy.getMonth() + 1;
     var yyyy = hoy.getFullYear();
+    var hh = hoy.getHours();
+    var min = hoy.getMinutes();
+    var seg = hoy.getSeconds();
 
     dd = addZero(dd);
     mm = addZero(mm);
+    hh = addZero(hh);
+    min = addZero(min);
+    seg = addZero(seg);
 
-    return yyyy + '-' + mm + '-' + dd
+    return yyyy + '-' + mm + '-' + dd + 'T' + hh + ':' + min + ':' + seg
 
 }
 

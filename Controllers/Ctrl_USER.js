@@ -41,9 +41,10 @@ passport.use('local_login', new LocalStrategy({
                             expiresIn: 30
                         })
                         fechaActual = fecha.hoyFecha()
-                        User.update({ "_id": user._id }, { $set: { lastLogin: fechaActual } }, (err, todo) => {
+                        console.log(fechaActual)
+                        User.updateOne({ "_id": user._id }, { $set: { lastLogin: fechaActual } }, (err, todo) => {
                             // Handle any possible database errors
-                            if (err) return res.status(500).send(err);
+                            if (err) return done(null, false, { message: err });
 
                             return done(null, user, { message: 'Login exitoso', token: token });
                         })
@@ -91,7 +92,25 @@ function addUser(req, res) {
 }
 
 function modify(req, res) {
-
+        let body = req.body;
+    User.updateOne({ username: req.body.username }, {
+            $set: req.body
+        },
+        function(error, info) {
+            if (error) {
+                res.status(400).json({
+                    resultado: false,
+                    msg: 'No se pudo modificar el usuario',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    resultado: true,
+                    info: info
+                })
+            }
+        }
+    )
 }
 
 function delet(req, res) {

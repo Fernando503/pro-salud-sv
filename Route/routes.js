@@ -7,8 +7,8 @@ const secury = require('../Middlewares/rutasProtegidas.js')
 // para validar JWT:    secury.vJWT
 
 rutas.post('/User/a', userCtrl.addUser)
-rutas.post('/User/m', userCtrl.modify)
-rutas.post('/User/d', userCtrl.delet)
+rutas.post('/User/m', secury.vJWT, userCtrl.modify)
+rutas.post('/User/d', secury.vJWT, userCtrl.delet)
 rutas.post('/auth', (req, res, next) => {
     passport.authenticate('local_login', { session: false },
         (err, user, info) => {
