@@ -1,5 +1,6 @@
 'use strict'
 const Institucion = require('./../Models/Model_instituciones')
+const mongoose = require('mongoose')
 var fecha = require('../utils')
 
 function addInstitucion(req, res) {
@@ -46,6 +47,18 @@ function addInstitucion(req, res) {
     }
 }
 
+function modifyInstitucion(req, res){
+	try{
+		Institucion.findOne({correo: req.body.correo }, function callback(error, user) {
+
+		})
+	}catch(err){
+		console.log(err)
+    	return res.status(500).send({code: 1, message: err})
+	}
+}
+
 module.exports = {
-    addInstitucion
+    addInstitucion,
+    modifyInstitucion
 }

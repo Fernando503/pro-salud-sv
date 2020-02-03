@@ -61,6 +61,7 @@ passport.use('local_login', new LocalStrategy({
     }
 ))
 
+
 function addUser(req, res) {
     console.log('Request from: https://localhost:8000/API/ProSalud/User/a')
 

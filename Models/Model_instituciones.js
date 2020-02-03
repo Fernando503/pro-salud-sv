@@ -4,14 +4,18 @@ const Schema = mongoose.Schema
 
 const InstitucionSchema = Schema({
 	nombre: String,
-	correo: { type: String, lowercase: true },
+	correo: { type: String, unique: true, lowercase: true },
 	logo: String,
 	direccion: [{
 		direccion1: String,
 		direccion2: String,
 		direccion3: String
 	}],
-	telefono: [{
+	geolocation: {
+		type: { type: String },
+		coordinates: [Number],
+		},
+	telefono: [{ 
 		fijo1: String,
 		fijo2: String, 
 		movil: String,
